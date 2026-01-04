@@ -1,1 +1,25 @@
+# ===== Python / ML =====
 venv/
+__pycache__/
+*.pyc
+*.pyo
+*.npy
+*.h5
+*.keras
+final_models/
+videos/
+
+# ===== Flutter =====
+mobile_app/**/build/
+mobile_app/**/.dart_tool/
+mobile_app/**/.flutter-plugins
+mobile_app/**/.flutter-plugins-dependencies
+
+# ===== Android / iOS =====
+mobile_app/**/.idea/
+mobile_app/**/android/.gradle/
+mobile_app/**/ios/Pods/
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
