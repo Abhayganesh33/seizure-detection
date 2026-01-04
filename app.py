@@ -9,7 +9,7 @@ CORS(app)
 
 VIDEO_FOLDER = "videos"
 
-# ---- Detection parameters (SAME AS camera.py) ----
+# ---- Detection parameters ----
 MAX_LEN = 90
 MOTION_THRESHOLD = 1e6
 FREQ_LOW = 0.5
@@ -20,6 +20,25 @@ DURATION_SEC = 0.3
 @app.route("/", methods=["GET"])
 def home():
     return jsonify({"message": "API running"})
+
+
+# ✅ NEW: simple frame-based test endpoint (for Flutter)
+@app.route("/analyze", methods=["POST"])
+def analyze_frames():
+    data = request.get_json()
+
+    if not data or "frames" not in data:
+        return jsonify({"error": "frames missing"}), 400
+
+    frames = np.array(data["frames"], dtype=np.float32)
+    avg_motion = float(np.mean(frames))
+    seizure_detected = avg_motion > 10  # dummy threshold (test only)
+
+    return jsonify({
+        "avg_motion": avg_motion,
+        "frames_count": len(frames),
+        "seizure_detected": seizure_detected
+    })
 
 
 @app.route("/analyze_video", methods=["POST"])
@@ -39,7 +58,6 @@ def analyze_video():
 
     FPS = cap.get(cv2.CAP_PROP_FPS)
     FPS = FPS if FPS > 0 else 30
-
     required_frames = int(DURATION_SEC * FPS)
 
     prev_gray = None
@@ -63,8 +81,8 @@ def analyze_video():
             motion_value = int(np.sum(diff))
 
         prev_gray = gray
-
         motion_signal.append(motion_value)
+
         if len(motion_signal) > MAX_LEN:
             motion_signal.pop(0)
 
@@ -72,17 +90,12 @@ def analyze_video():
             signal = np.array(motion_signal)
             avg_motion = float(np.mean(signal))
 
-            signal = signal - np.mean(signal)
-            fft_vals = np.abs(np.fft.rfft(signal))
-            freqs = np.fft.rfftfreq(len(signal), d=1 / FPS)
+            centered = signal - np.mean(signal)
+            fft_vals = np.abs(np.fft.rfft(centered))
+            freqs = np.fft.rfftfreq(len(centered), d=1 / FPS)
             dominant_freq = float(freqs[np.argmax(fft_vals)])
 
-            condition = (
-                avg_motion > MOTION_THRESHOLD and
-                FREQ_LOW <= dominant_freq <= FREQ_HIGH
-            )
-
-            if condition:
+            if avg_motion > MOTION_THRESHOLD and FREQ_LOW <= dominant_freq <= FREQ_HIGH:
                 seizure_frames += 1
                 if seizure_frames >= required_frames:
                     seizure_detected = True
