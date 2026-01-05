@@ -1,19 +1,14 @@
 Seizure Detection System
 
-This project focuses on detecting seizure activity using human pose analysis and deep learning, with a Flutter-based mobile application for real-time, offline monitoring.
+This project focuses on detecting seizure activity using human pose analysis and deep learning, with a Flutter-based mobile application for real-time and offline monitoring.
 
 Project Overview
 
 The system was initially explored using rule-based motion and frequency analysis but was later redesigned to use a fully machine-learning-driven approach for improved reliability and accuracy.
-The final solution runs entirely on-device without any server or cloud dependency.
+The final solution runs entirely on-device without any server dependency.
 
 📁 Dataset / Demo:
 https://drive.google.com/file/d/1zeNfm2ohGFMOdRMHdi9pjd0Cpctmg0TJ/view?usp=sharing
-
-🎥 Reference Videos:
-https://drive.google.com/drive/folders/16IUU2HXWjWC1dVlU_DOIcD9M9aC8Kpn-?usp=sharing
-
-System Flowchart
 
 Project Images
 
@@ -49,7 +44,7 @@ Video dataset collected and organized (normal vs seizure)
 
 Videos segmented into fixed 5-second clips
 
-Pose extraction implemented using MediaPipe
+Pose extraction pipeline implemented using MediaPipe
 
 Pose data converted into .npy sequences
 
@@ -59,21 +54,21 @@ Rule-based logic fully replaced with ML model
 
 Temporal pose sequences used as input
 
-LSTM model trained using TensorFlow/Keras
+LSTM model trained on pose data
 
 Trained model saved as .h5
 
-Converted to TensorFlow Lite (.tflite) for mobile deployment
+Converted to TensorFlow Lite (.tflite) for mobile inference
 
 5. Mobile Application
 
-Flutter application developed
+Flutter mobile application developed
 
 Live camera integration implemented
 
 On-device inference enabled using TFLite
 
-Backend dependency removed for offline operation
+Backend dependency removed for offline usage
 
 Methodology
 
@@ -81,17 +76,17 @@ Camera captures live video
 
 Pose detection extracts body joint landmarks
 
-Landmark sequences are analyzed over time
+Motion sequences are analyzed over time
 
-LSTM model classifies motion as normal or seizure-like
+LSTM model classifies movements as normal or seizure-like
 
-All inference runs locally using TensorFlow Lite
+Inference runs fully on-device using TensorFlow Lite
 
 Key Features
 
 Real-time monitoring
 
-Fully offline AI inference
+Offline AI inference
 
 Pose skeleton visualization
 
@@ -117,4 +112,4 @@ Flutter (Android)
 
 Goal
 
-To provide a low-latency, privacy-preserving seizure detection system that operates entirely on-device, enabling continuous monitoring even without internet connectivity.
+To provide a reliable, low-latency seizure detection system that operates fully on-device, enabling continuous monitoring even without internet connectivity.
