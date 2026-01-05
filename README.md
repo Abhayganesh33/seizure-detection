@@ -8,6 +8,9 @@ This project focuses on detecting seizure activity using human pose analysis and
 
 The system was initially explored using rule-based motion and frequency analysis but was later redesigned to use a fully machine-learning-driven approach for improved reliability and accuracy. The final solution runs entirely on-device without server dependency.
 
+**📁 Download Dataset / Demo:**  
+https://drive.google.com/file/d/1zeNfm2ohGFMOdRMHdi9pjd0Cpctmg0TJ/view?usp=sharing
+
 ---
 
 ## Project Images
