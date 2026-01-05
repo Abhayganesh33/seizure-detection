@@ -50,8 +50,6 @@ Pose data converted into .npy sequences
 
 4. Machine Learning Model (Final Approach)
 
-Rule-based logic fully replaced with ML model
-
 Temporal pose sequences used as input
 
 LSTM model trained on pose data
